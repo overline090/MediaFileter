@@ -88,31 +88,7 @@ int(mmv)
 int(smv)
 int(umv)
 int(wmv)
-
-
-def update():
-    url_update = "https://raw.githubusercontent.com/overline090/MediaFileter/master/update/update.inf"
-    urllib.request.urlretrieve(url_update, filename="./Download/update.inf")
-    update_ini = ConfigParser()
-    update_ini.read("./Download/update.inf")
-    update_info = update_ini["Update_info"]
-    update_link = update_ini["Update_link"]
-    link_amount = update_info["link_amount"]
-    maine_name = update_info["maine_name"]
-    int(link_amount)
-    for link in link_amount:
-        if link == 0:
-            pass
-        else:
-            update_url = update_link[str("url") + link]
-            os.chdir('./Download')
-            urllib.request.urlretrieve(update_url)
-    open(maine_name)
-    shutil.rmtree("./Download")
-    exit()
-
-
-if umv != 3:
+if umv == "2" or umv == 1:
     if not os.path.isdir('./Download'):
         os.mkdir("./Download")
     import urllib.request
@@ -122,9 +98,31 @@ if umv != 3:
     verinfonew = open("./Download/ver.inf")
     verinfordnew = verinfonew.readline(12)
     if verinfordnew != actual_version:
+        print("ok")
         verinfonew.close()
         new_ver = True
-        update()
+        if umv == "2":
+            url_update = "https://raw.githubusercontent.com/overline090/MediaFileter/master/update/update.ini"
+            urllib.request.urlretrieve(url_update, filename="./Download/update.inf")
+            update_ini = ConfigParser()
+            update_ini.read("./Download/update.inf")
+            update_info = update_ini["Update_info"]
+            update_link = update_ini["Update_link"]
+            link_amount = update_info["link_amount"]
+            maine_name = update_info["maine_name"]
+            int(link_amount)
+            os.chdir('./Download')
+            for link in link_amount:
+                if not link == 0:
+                    update_url = update_link[str("url") + link]
+                    urllib.request.urlretrieve(update_url, filename=maine_name)
+            for x in glob.iglob('*.*', recursive=True):
+                print(x)
+                shutil.move(x, '../'+x)
+            os.chdir("../")
+            exec(open(maine_name).read())
+            #shutil.rmtree("./Download")
+            exit()
     else:
         verinfonew.close()
         shutil.rmtree("./Download")
@@ -898,7 +896,6 @@ class maine:
             UpdateMhetode1.grid(row=12, column=0, sticky="W")
             UpdateMhetode2 = Radiobutton(settingwindow, text="auto update", variable=updatemethodevar, value=2)
             UpdateMhetode2.grid(row=13, column=0, sticky="W")
-            UpdateMhetode2.state(['disabled'])
             UpdateMhetode3 = Radiobutton(settingwindow, text="do not check for update", variable=updatemethodevar,
                                          value=3)
             UpdateMhetode3.grid(row=14, column=0, sticky="W")
@@ -930,7 +927,7 @@ class maine:
             localp.delete(0, END)
             localp.insert(0, defaultpath)
 
-        if umv == 1:
+        if umv == "1":
             if new_ver:
                 def webopen():
                     webbrowser.open_new_tab('https://github.com/overline090/MediaFileter')
