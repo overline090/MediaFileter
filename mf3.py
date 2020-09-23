@@ -21,13 +21,7 @@ from tkinter import filedialog
 from tkinter.ttk import *
 from configparser import ConfigParser
 from send2trash import send2trash
-
-try:
-    from PIL import Image, ImageTk, GifImagePlugin
-except ImportError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", 'pillow'])
-finally:
-    from PIL import Image, ImageTk, GifImagePlugin
+from PIL import Image, ImageTk
 import pathlib
 
 os.chdir(pathlib.Path(__file__).parent.absolute())
@@ -98,7 +92,6 @@ if umv == "2" or umv == 1:
     verinfonew = open("./Download/ver.inf")
     verinfordnew = verinfonew.readline(12)
     if verinfordnew != actual_version:
-        print("ok")
         verinfonew.close()
         new_ver = True
         if umv == "2":
@@ -121,7 +114,7 @@ if umv == "2" or umv == 1:
                 shutil.move(x, '../'+x)
             os.chdir("../")
             exec(open(maine_name).read())
-            #shutil.rmtree("./Download")
+            shutil.rmtree("./Download")
             exit()
     else:
         verinfonew.close()
@@ -162,27 +155,25 @@ class maine:
             lberror.place(anchor="center", x=960, y=540)
             if ds == 0:
                 img.destroy()
-                try:
+                if ButtonMove1:
                     ButtonMove1.destroy()
-                    ButtonMove2.destroy()
+                if ButtonMove2:
+                    ButtonMove1.destroy()
+                if ButtonBack:
                     ButtonBack.destroy()
+                if ButtonNext:
                     ButtonNext.destroy()
+                if ButtonDelete:
                     ButtonDelete.destroy()
-                except:
-                    pass
-                try:
+                if lb1:
                     lb1.destroy()
-                except:
-                    pass
+                if lb8:
+                    lb8.destroy()
                 lb3.destroy()
                 lb4.destroy()
                 lb6.destroy()
                 lb7.destroy()
                 lb3state.destroy()
-                try:
-                    lb8.destroy()
-                except:
-                    pass
             if x == len(file):
                 x = 0
             if x == -len(file):
@@ -519,7 +510,7 @@ class maine:
                 image()
 
         def pa2f():
-            global nip, x
+            global x, nip
             file.clear()
             for in_file in glob.glob('*.jpeg'):
                 file.append(in_file)
