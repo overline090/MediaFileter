@@ -31,14 +31,15 @@ if os.path.isfile('./config.ini'):
     mmvselect = config_object["Display_gif_warning"]
     smvselect = config_object["Suppression_method"]
     umvselect = config_object["Update_method"]
-    wmvselect = config_object["Weight_display_methd"]
+    wmvselect = config_object["Weight_display_method"]
     mmv = mmvselect["select"]
     smv = smvselect["select"]
     umv = umvselect["select"]
     wmv = wmvselect["select"]
+    print(mmvselect["boolean"])
     if mmvselect["boolean"] == "True":
         GifWarningSt = True
-    elif mmvselect["boolean"] == "Falce" or mmvselect["boolean"] == "()":
+    elif mmvselect["boolean"] == "False" or mmvselect["boolean"] == "()":
         GifWarningSt = False
     cfgpathdefault = config_object["Pathcfg"]
     if cfgpathdefault["default_maine"] == "NON":
@@ -158,7 +159,7 @@ class maine:
                 if ButtonMove1:
                     ButtonMove1.destroy()
                 if ButtonMove2:
-                    ButtonMove1.destroy()
+                    ButtonMove2.destroy()
                 if ButtonBack:
                     ButtonBack.destroy()
                 if ButtonNext:
@@ -937,7 +938,6 @@ class maine:
             settings = Button(root, text="settings", image=self.settingicon, compound=LEFT,
                               padding="-100,-100,-100,-100", command=settings_page)
             settings.pack(side=BOTTOM)
-
         if not GifWarningSt:
             if myvar.get() == 1:
                 global gif_animation
